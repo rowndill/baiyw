@@ -1,5 +1,25 @@
 const selections = { location: null, time: null, mood: null };
 
+// API 키: secret.js 우선, 없으면 localStorage
+function getApiKey() {
+  if (typeof GROQ_API_KEY !== "undefined" && GROQ_API_KEY) return GROQ_API_KEY;
+  return localStorage.getItem("groq_api_key") || null;
+}
+
+function saveApiKey() {
+  const val = document.getElementById("api-key-input").value.trim();
+  if (!val) { alert("API 키를 입력해주세요."); return; }
+  localStorage.setItem("groq_api_key", val);
+  document.getElementById("api-modal").style.display = "none";
+}
+
+// 페이지 로드 시 키 없으면 모달 표시
+window.addEventListener("DOMContentLoaded", () => {
+  if (!getApiKey()) {
+    document.getElementById("api-modal").style.display = "flex";
+  }
+});
+
 const SYSTEM_PROMPT = `당신은 세상에서 가장 창의적이고 황당한 챌린지를 만드는 AI입니다.
 모든 출력은 반드시 한국어로만 작성하세요. 한자, 일본어, 중국어, 러시아어 등 다른 언어 문자를 절대 사용하지 마세요.
 사용자의 현재 환경을 보고, 그 환경에서 실제로 수행 가능하지만 매우 엉뚱하고, 이상하고, 예상치 못한 도전과제를 생성하세요.
@@ -32,8 +52,9 @@ function toggleTag(btn, group) {
 }
 
 async function generateChallenge() {
-  if (typeof GROQ_API_KEY === "undefined" || !GROQ_API_KEY) {
-    alert("secret.js 파일에 GROQ_API_KEY를 설정해주세요.");
+  const GROQ_KEY = getApiKey();
+  if (!GROQ_KEY) {
+    document.getElementById("api-modal").style.display = "flex";
     return;
   }
 
@@ -67,7 +88,7 @@ async function generateChallenge() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${GROQ_API_KEY}`,
+          "Authorization": `Bearer ${GROQ_KEY}`,
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",

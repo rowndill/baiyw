@@ -86,7 +86,20 @@
     </section>
   </div>
 
-  <script src="secret.js"></script>
+  <!-- API 키 입력 모달 -->
+  <div id="api-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#1e1b2e;border:1px solid #7c3aed;border-radius:1rem;padding:2rem;max-width:420px;width:90%;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:0.5rem">🔑</div>
+      <h2 style="color:#fff;margin-bottom:0.5rem">Groq API 키 입력</h2>
+      <p style="color:#aaa;font-size:0.9rem;margin-bottom:1rem">
+        <a href="https://console.groq.com/keys" target="_blank" style="color:#a78bfa">console.groq.com</a>에서 발급받은 키를 입력하세요.<br>키는 이 브라우저에만 저장되며 외부로 전송되지 않습니다.
+      </p>
+      <input id="api-key-input" type="password" placeholder="gsk_..." style="width:100%;padding:0.7rem;border-radius:0.5rem;border:1px solid #7c3aed;background:#0f0e1a;color:#fff;font-size:0.95rem;box-sizing:border-box;margin-bottom:1rem;" />
+      <button onclick="saveApiKey()" style="width:100%;padding:0.75rem;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;border:none;border-radius:0.5rem;font-size:1rem;cursor:pointer;">저장하고 시작하기</button>
+    </div>
+  </div>
+
+  <script src="secret.js" onerror=""></script>
   <script src="app.js"></script>
 </body>
 </html>
