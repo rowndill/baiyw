@@ -14,10 +14,13 @@ function saveApiKey() {
 }
 
 // 페이지 로드 시 키 없으면 모달 표시
+function showApiModal() {
+  const m = document.getElementById("api-modal");
+  m.style.display = "flex";
+}
+
 window.addEventListener("DOMContentLoaded", () => {
-  if (!getApiKey()) {
-    document.getElementById("api-modal").style.display = "flex";
-  }
+  if (!getApiKey()) showApiModal();
 });
 
 const SYSTEM_PROMPT = `당신은 세상에서 가장 창의적이고 황당한 챌린지를 만드는 AI입니다.
@@ -54,7 +57,7 @@ function toggleTag(btn, group) {
 async function generateChallenge() {
   const GROQ_KEY = getApiKey();
   if (!GROQ_KEY) {
-    document.getElementById("api-modal").style.display = "flex";
+    showApiModal();
     return;
   }
 
